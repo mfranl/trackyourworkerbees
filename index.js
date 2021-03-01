@@ -2,6 +2,8 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
+const through = require('through');
+const { throwError } = require('rxjs');
 
 
 
@@ -9,7 +11,7 @@ var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: 'HobGoblin93',
+    password: 'ShifuL2020!',
 
     database: "employer_DB"
 })
@@ -264,15 +266,9 @@ function addEmployee() {
 function viewDepartment() {
     var query = "SELECT id, name FROM department";
     connection.query(query, function (err, res) {
-        var tableObj = [];
-        for (var i = 0; i < res.length; i++) {
-            tableObj.push({
-                ID: res[i].id,
-                Name: res[i].name
-            });
-        };
-
-        console.log(cTable.getTable(tableObj));
+    
+        console.table(res)
+        // console.log(cTable.getTable(tableObj));
 
         inquirer.prompt({
                 name: "returnToStart",
@@ -293,18 +289,20 @@ function viewDepartment() {
 
 function viewRole() {
     var query = "SELECT id, title, salary, department_id FROM role";
-    connection.query(query, function (err, res) {
-        var tableObj = [];
-        for (var i = 0; i < res.length; i++) {
-            tableObj.push({
-                ID: res[i].id,
-                Title: res[i].title,
-                Salary: res[i].salary,
-                Department: res[i].department_id
-            });
-        }
 
-        console.log(cTable.getTable(tableObj));
+    connection.query(query, function (err, res) {
+        if (err) throw err
+        var tableObj = [];
+        // for (var i = 0; i < res.length; i++) {
+        //     tableObj.push({
+        //         ID: res[i].id,
+        //         Title: res[i].title,
+        //         Salary: res[i].salary,
+        //         Department: res[i].department_id
+        //     });
+        // }
+        console.table(res);
+        // console.log(cTable.getTable(tableObj));
 
         inquirer.prompt({
                 name: "returnToStart",
@@ -328,18 +326,18 @@ function viewEmployee() {
     var query = "SELECT id, first_name, last_name, role_id, manager_id FROM employee";
     tableObj = [];
     connection.query(query, function (err, res) {
-        for (var i = 0; i < res.length; i++) {
-            tableObj.push({
-                ID: res[i].id,
-                First_name: res[i].first_name,
-                Last_name: res[i].last_name,
-                Role: res[i].role_id,
-                Manager: res[i].manager_id
-            });
-        }
+        // for (var i = 0; i < res.length; i++) {
+        //     tableObj.push({
+        //         ID: res[i].id,
+        //         First_name: res[i].first_name,
+        //         Last_name: res[i].last_name,
+        //         Role: res[i].role_id,
+        //         Manager: res[i].manager_id
+        //     });
+        // }
 
-        console.log(cTable.getTable(tableObj));
-
+        // console.log(cTable.getTable(tableObj));
+        console.table(res);
         inquirer.prompt({
                 name: "returnToStart",
                 type: "confirm",
