@@ -2,17 +2,12 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
-const through = require('through');
-const { throwError } = require('rxjs');
-
-
 
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
     password: 'ShifuL2020!',
-
     database: "employer_DB"
 })
 
@@ -20,7 +15,6 @@ connection.connect(function (err) {
     console.log("Connected as id: " + connection.threadId);
     start();
 })
-
 
 
 const start = function () {
@@ -163,19 +157,19 @@ function addDepartment() {
 function addRole() {
     inquirer.prompt([{
                 type: "input",
-                message: "Please enter the name of the new role.",
+                message: "Enter new role name",
                 name: "Title",
 
             },
             {
                 type: "input",
-                message: "Please enter the salary for the new role.",
+                message: "Enter new role salary.",
                 name: "Salary",
 
             },
             {
                 type: "input",
-                message: "Please enter the department ID for the new role.",
+                message: "Enter new role department ID.",
                 name: "DeptId",
 
             }
@@ -193,7 +187,7 @@ function addRole() {
                     inquirer.prompt({
                             name: "returnToStart",
                             type: "confirm",
-                            message: "Would you like to do another search?",
+                            message: "ANOTHA ONE?",
                         })
                         .then(function (response) {
                             if (response.returnToStart === true) {
@@ -212,18 +206,18 @@ function addEmployee() {
     inquirer
         .prompt([{
                 type: "input",
-                message: "Please enter new employee's first name",
+                message: "New Employee First Name",
                 name: "first_name",
             },
             {
                 type: "input",
-                message: "Please enter new employee's last name",
+                message: "New Employee Last Name",
                 name: "last_name",
 
             },
             {
                 type: "input",
-                message: "Please enter the role ID for the new role.",
+                message: "Enter new role, role ID",
                 name: "EmpRoleId",
 
             },
@@ -248,7 +242,7 @@ function addEmployee() {
                     inquirer.prompt({
                             name: "returnToStart",
                             type: "confirm",
-                            message: "Would you like to do another search?",
+                            message: "ANOTHA ONE?",
                         })
                         .then(function (response) {
                             if (response.returnToStart === true) {
@@ -273,7 +267,7 @@ function viewDepartment() {
         inquirer.prompt({
                 name: "returnToStart",
                 type: "confirm",
-                message: "Would you like another search?",
+                message: "ANOTHA ONE?",
             })
             .then(function (response) {
                 if (response.returnToStart === true) {
@@ -293,21 +287,14 @@ function viewRole() {
     connection.query(query, function (err, res) {
         if (err) throw err
         var tableObj = [];
-        // for (var i = 0; i < res.length; i++) {
-        //     tableObj.push({
-        //         ID: res[i].id,
-        //         Title: res[i].title,
-        //         Salary: res[i].salary,
-        //         Department: res[i].department_id
-        //     });
-        // }
+        
         console.table(res);
-        // console.log(cTable.getTable(tableObj));
+       
 
         inquirer.prompt({
                 name: "returnToStart",
                 type: "confirm",
-                message: "Would you like another search?",
+                message: "ANOTHA ONE?",
             })
             .then(function (response) {
                 if (response.returnToStart === true) {
@@ -326,22 +313,12 @@ function viewEmployee() {
     var query = "SELECT id, first_name, last_name, role_id, manager_id FROM employee";
     tableObj = [];
     connection.query(query, function (err, res) {
-        // for (var i = 0; i < res.length; i++) {
-        //     tableObj.push({
-        //         ID: res[i].id,
-        //         First_name: res[i].first_name,
-        //         Last_name: res[i].last_name,
-        //         Role: res[i].role_id,
-        //         Manager: res[i].manager_id
-        //     });
-        // }
-
-        // console.log(cTable.getTable(tableObj));
+       
         console.table(res);
         inquirer.prompt({
                 name: "returnToStart",
                 type: "confirm",
-                message: "Would you like another search?",
+                message: "ANOTHA ONE?",
             })
             .then(function (response) {
                 if (response.returnToStart === true) {
@@ -359,12 +336,12 @@ function updateDepartment() {
     inquirer.prompt([{
                 name: "departmentUpdate",
                 type: "input",
-                message: "Please enter department you wish to update.",
+                message: "Department to Update: ",
             },
             {
                 name: "departmentNew",
                 type: "input",
-                message: "Please enter the updated department name.",
+                message: "Updated Department Name: ",
             }
         ])
         .then(function (response) {
@@ -383,7 +360,7 @@ function updateDepartment() {
                 inquirer.prompt({
                         name: "returnToStart",
                         type: "confirm",
-                        message: "Would you like another search?",
+                        message: "ANOTHA ONE?",
                     })
                     .then(function (response) {
                         if (response.returnToStart === true) {
@@ -402,18 +379,18 @@ function updateRole() {
     inquirer.prompt([{
                 name: "roleUpdate",
                 type: "input",
-                message: "Please enter the role you wish to update.",
+                message: "Enter role to update.",
             },
             {
                 name: "roleField",
                 type: "rawlist",
-                message: "Which field needs updating?",
+                message: "Choose one to update.",
                 choices: ["title", "salary", "department_id"]
             },
             {
                 name: "roleNew",
                 type: "input",
-                message: "Please enter the new value.",
+                message: "Enter new value",
             }
         ])
         .then(function (response) {
@@ -463,7 +440,7 @@ function updateRole() {
             inquirer.prompt({
                     name: "returnToStart",
                     type: "confirm",
-                    message: "Would you like another search?",
+                    message: "ANOTHA ONE?",
                 })
                 .then(function (response) {
                     if (response.returnToStart === true) {
@@ -481,18 +458,18 @@ function updateEmployee() {
     inquirer.prompt([{
                 name: "employeeUpdate",
                 type: "input",
-                message: "Please enter the employee_id you wish to update.",
+                message: "Enter the employee_id to update: ",
             },
             {
                 name: "employeeField",
                 type: "rawlist",
-                message: "Which field needs updating?",
+                message: "Choose one to update: ",
                 choices: ["first_name", "last_name", "role_id", "manager_id"]
             },
             {
                 name: "employeeNew",
                 type: "input",
-                message: "Please enter the new value.",
+                message: "Enter new value: ",
             }
         ])
         .then(function (response) {
@@ -555,7 +532,7 @@ function updateEmployee() {
             inquirer.prompt({
                     name: "returnToStart",
                     type: "confirm",
-                    message: "Would you like another search?",
+                    message: "ANOTHA ONE?",
                 })
                 .then(function (response) {
                     if (response.returnToStart === true) {
